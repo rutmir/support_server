@@ -1,0 +1,104 @@
+openapi: 3.0.3
+info:
+  title: Error Report API
+  description: API for reporting critical errors from client applications
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/v1
+    description: Production server
+paths:
+  /error-report:
+    post:
+      summary: Report an error
+      description: Submit a critical error report from a client application
+      operationId: reportError
+      security:
+        - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorReportRequest'
+      responses:
+        '200':
+          description: Error report was successfully received and processed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SuccessResponse'
+        '400':
+          description: Invalid request format or missing required fields
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        '401':
+          description: Invalid or missing API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: API key in the Authorization Bearer header
+  schemas:
+    ErrorReportRequest:
+      type: object
+      required:
+        - device
+        - error
+      properties:
+        device:
+          type: object
+          required:
+            - id
+          properties:
+            id:
+              type: string
+              description: Unique identifier for the device
+            description:
+              type: string
+              description: Description of the device
+        error:
+          type: object
+          required:
+            - message
+            - trace
+          properties:
+            message:
+              type: string
+              description: The error message
+            trace:
+              type: array
+              items:
+                type: string
+              description: Stack trace information
+    SuccessResponse:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          enum: [success]
+        message:
+          type: string
+          description: Descriptive message
+    ErrorResponse:
+      type: object
+      required:
+        - status
+        - message
+      properties:
+        status:
+          type: string
+          enum: [error]
+        message:
+          type: string
+          description: Descriptive error message
