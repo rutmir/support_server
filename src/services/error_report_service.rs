@@ -4,7 +4,6 @@ use crate::{
     error::AppError,
     cache::MessageCache,
 };
-use std::sync::Arc;
 use sha2::{Sha256, Digest};
 
 /// Service for handling error reports
@@ -28,6 +27,8 @@ impl ErrorReportService {
         let mut hasher = Sha256::new();
         hasher.update(request.device.id.as_bytes());
         hasher.update(request.error.message.as_bytes());
+        hasher.update(request.app.name.as_bytes());
+        hasher.update(request.app.version.as_bytes());
         format!("{:x}", hasher.finalize())
     }
 
@@ -66,6 +67,8 @@ impl ErrorReportService {
 
     /// Format an error report into a human-readable message for Telegram
     fn format_report_message(&self, request: &ErrorReportRequest) -> String {
+        let app_info = format!("{} ({})", request.app.name, request.app.version);
+
         let device_info = if let Some(description) = &request.device.description {
             format!("{} ({})", request.device.id, description)
         } else {
@@ -80,9 +83,11 @@ impl ErrorReportService {
 
         format!(
             "🚨 <b>New Error Report</b> 🚨\n\n\
+             <b>Application:</b> {}\n\
              <b>Device:</b> {}\n\
              <b>Error Message:</b> {}\n\
              <b>Stack Trace:</b>\n<pre>{}</pre>",
+            app_info,
             device_info,
             request.error.message,
             trace

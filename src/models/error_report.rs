@@ -4,12 +4,26 @@ use validator::Validate;
 /// Represents a request to report an error from a client application
 #[derive(Debug, Clone, Deserialize, Serialize, Validate)]
 pub struct ErrorReportRequest {
+    /// Information about the application
+    #[validate(nested)]
+    pub app: App,
     /// Information about the device reporting the error
     #[validate(nested)]
     pub device: Device,
     /// Information about the error
     #[validate(nested)]
     pub error: Error,
+}
+
+/// Information about the error
+#[derive(Debug, Clone, Deserialize, Serialize, Validate)]
+pub struct App {
+    /// Application name
+    #[validate(length(min = 1))]
+    pub name: String,
+    /// application version
+    #[validate(length(min = 1))]
+    pub version: String,
 }
 
 /// Information about the device reporting the error

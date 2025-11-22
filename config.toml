@@ -1,0 +1,16 @@
+# Default configuration file for support_server
+
+# Server configuration
+server_address = "127.0.0.1:8080"
+
+# Telegram bot configuration
+# telegram_bot_token = "PLACEHOLDER_BOT_TOKEN"
+telegram_bot_token = "8271160191:AAEUK4U7r234ynM97F2w3oAdPZtO_ohtOu8"
+# telegram_chat_id = "PLACEHOLDER_CHAT_ID"
+telegram_chat_id = "5180611756"
+
+# Cache configuration
+cache_ttl_minutes = 10
+
+# API keys for authentication
+api_keys = ["test_api_key"]

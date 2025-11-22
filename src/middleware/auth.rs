@@ -30,7 +30,7 @@ pub async fn api_key_auth(
     let token = &auth_header[7..];
 
     // Validate against configured API keys
-    if !config.valid_api_keys.contains(&token.to_string()) {
+    if !config.api_keys.contains(&token.to_string()) {
         return Err(AppError::new_bad_request());
     }
 

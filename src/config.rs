@@ -1,6 +1,5 @@
 use config::{Config as ConfigLoader, Environment, File};
 use serde::Deserialize;
-use std::env;
 
 #[derive(Debug, Deserialize, Clone)]
 pub struct Config {
@@ -11,7 +10,7 @@ pub struct Config {
     #[serde(default = "default_cache_ttl_minutes")]
     pub cache_ttl_minutes: u64,
     #[serde(default)]
-    pub valid_api_keys: Vec<String>,
+    pub api_keys: Vec<String>,
 }
 
 fn default_server_address() -> String {
@@ -24,11 +23,9 @@ fn default_cache_ttl_minutes() -> u64 {
 
 impl Config {
     pub fn from_env_and_file() -> Result<Self, config::ConfigError> {
-        let config_dir = env::var("CONFIG_DIR").unwrap_or_else(|_| "./config".to_string());
-        
         let config_builder = ConfigLoader::builder()
             // Start with default values
-            .add_source(File::with_name(&format!("{}/default", config_dir)).required(false))
+            .add_source(File::with_name("./config").required(false))
             // Add in environment variables prefixed with APP_
             .add_source(Environment::with_prefix("APP").separator("_"));
 
@@ -44,7 +41,7 @@ impl Default for Config {
             telegram_bot_token: String::new(),
             telegram_chat_id: String::new(),
             cache_ttl_minutes: default_cache_ttl_minutes(),
-            valid_api_keys: Vec::new(),
+            api_keys: Vec::new(),
         }
     }
 }

@@ -61,7 +61,7 @@ async fn main() {
     // Build our application with the API key auth middleware
     let app = Router::new()
         .route("/", get(|| async { "Hello, World!" })) // Placeholder route
-        .route("/error-report", post(api::error_report::report_error))
+        .route("/api/v1/error-report", post(api::error_report::report_error))
         .layer(axum::middleware::from_fn_with_state(
             config.clone(),
             middleware::auth::api_key_auth,
