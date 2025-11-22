@@ -57,17 +57,19 @@ async fn main() {
         config: config.clone(),
         error_report_service,
     };
-    
-    // Build our application with the API key auth middleware
-    let app = Router::new()
-        .route("/", get(|| async { "Hello, World!" })) // Placeholder route
-        .route("/api/v1/error-report", post(api::error_report::report_error))
+
+    let api_router = Router::new().route("/v1/error-report", post(api::error_report::report_error))
         .layer(axum::middleware::from_fn_with_state(
             config.clone(),
             middleware::auth::api_key_auth,
         ))
-        .layer(TraceLayer::new_for_http())
         .with_state(app_state);
+    
+    // Build our application with the API key auth middleware
+    let app = Router::new()
+        .route("/health", get(|| async { "health" })) // Placeholder route
+        .nest("/api", api_router)
+        .layer(TraceLayer::new_for_http());
     
     // Run our app with hyper, listening globally on port 3000
     let addr: SocketAddr = config.server_address.parse().expect("Unable to parse socket address");
