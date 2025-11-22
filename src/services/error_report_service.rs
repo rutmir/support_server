@@ -25,7 +25,6 @@ impl ErrorReportService {
     /// Combines device ID and error message to create a unique identifier
     fn generate_message_hash(&self, request: &ErrorReportRequest) -> String {
         let mut hasher = Sha256::new();
-        hasher.update(request.device.id.as_bytes());
         hasher.update(request.error.message.as_bytes());
         hasher.update(request.app.name.as_bytes());
         hasher.update(request.app.version.as_bytes());
