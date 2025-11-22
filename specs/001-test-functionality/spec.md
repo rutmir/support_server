@@ -82,3 +82,13 @@ As a developer, I want to ensure that the cache functionality is properly tested
 - **SC-002**: API key authorization correctly rejects unauthorized requests 100% of the time
 - **SC-003**: Cache functionality prevents duplicate messages from being sent to Telegram
 - **SC-004**: Test suite covers all major functionality and edge cases, achieving at least 80% code coverage
+
+## Clarifications
+
+### Session 2025-11-22
+
+- Q: For the test data approach in the specification, should we include test data directly in the specification file, reference external files, or generate test data dynamically in test code? → A: A - Include test data directly in the specification file
+- Q: What is the expected behavior when the Telegram API is unavailable? Should the system queue messages, return an error, or implement a retry mechanism? → A: A - Queue messages for later delivery when Telegram is available
+- Q: How should the system handle requests with malformed JSON? Should it return a specific error code and message, or attempt to parse partial data? → A: C - Log the error and return 422 Unprocessable Entity
+- Q: What is the expected cache size limit and eviction policy when the cache becomes full? Should we implement LRU eviction or simply reject new entries? → A: B - Reject new entries when cache is full
+- Q: Should the test functionality include performance benchmarks or load testing capabilities, or is basic functional testing sufficient? → A: B - Focus on basic functional testing only
