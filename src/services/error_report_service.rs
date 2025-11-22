@@ -81,7 +81,7 @@ impl ErrorReportService {
         };
 
         format!(
-            "🚨 <b>New Error Report</b> 🚨\n\n\
+            "🚨 <b>Error Report</b> 🚨\n\n\
              <b>Application:</b> {}\n\
              <b>Device:</b> {}\n\
              <b>Error Message:</b> {}\n\
