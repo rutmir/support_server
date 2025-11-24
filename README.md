@@ -2,7 +2,7 @@
 
 ## Description
 REST API server to handle messages from clients and propagate it to Telegram.
-Authorization functionality to this REST API server implemented using Authorization header with Bearer api-key parameter. List of api_keys stored in the config file. 
+Authorization functionality to this REST API server implemented using `Authorization: Bearer <x-api-key>` header. List of api_keys stored in the config file. 
 
 ## Technology stack
 - **Rust** language
