@@ -10,6 +10,7 @@ use std::fmt;
 pub enum AppError {
     InternalError,
     BadRequest,
+    Unauthorized,
     ConfigError(String),
     ExternalServiceError(String),
 }
@@ -19,6 +20,7 @@ impl fmt::Display for AppError {
         match self {
             AppError::InternalError => write!(f, "Internal server error"),
             AppError::BadRequest => write!(f, "Bad request"),
+            AppError::Unauthorized => write!(f, "Unauthorized"),
             AppError::ConfigError(msg) => write!(f, "Configuration error: {}", msg),
             AppError::ExternalServiceError(msg) => write!(f, "External service error: {}", msg),
         }
@@ -32,6 +34,10 @@ impl AppError {
 
     pub fn new_bad_request() -> Self {
         AppError::BadRequest
+    }
+
+    pub fn new_unauthorized() -> Self {
+        AppError::Unauthorized
     }
 
     pub fn new_config<S: AsRef<str>>(msg: S) -> Self {
@@ -48,6 +54,7 @@ impl IntoResponse for AppError {
         let status = match self {
             AppError::InternalError => StatusCode::INTERNAL_SERVER_ERROR,
             AppError::BadRequest => StatusCode::BAD_REQUEST,
+            AppError::Unauthorized => StatusCode::UNAUTHORIZED,
             AppError::ConfigError(_) => StatusCode::INTERNAL_SERVER_ERROR,
             AppError::ExternalServiceError(_) => StatusCode::BAD_GATEWAY,
         };

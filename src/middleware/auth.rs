@@ -17,13 +17,13 @@ pub async fn api_key_auth(
     let auth_header = request
         .headers()
         .get("Authorization")
-        .ok_or_else(|| AppError::new_bad_request())?
+        .ok_or_else(|| AppError::new_unauthorized())?
         .to_str()
-        .map_err(|_| AppError::new_bad_request())?;
+        .map_err(|_| AppError::new_unauthorized())?;
 
     // Check if it's a Bearer token
     if !auth_header.starts_with("Bearer ") {
-        return Err(AppError::new_bad_request());
+        return Err(AppError::new_unauthorized());
     }
 
     // Extract the token
@@ -31,7 +31,7 @@ pub async fn api_key_auth(
 
     // Validate against configured API keys
     if !config.api_keys.contains(&token.to_string()) {
-        return Err(AppError::new_bad_request());
+        return Err(AppError::new_unauthorized());
     }
 
     // If valid, continue with the request
