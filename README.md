@@ -18,5 +18,11 @@ Authorization functionality to this REST API server implemented using `Authoriza
 curl -X POST http://127.0.0.1:8080/api/v1/error-report   -H "Authorization: Bearer test_api_key"   -H "Content-Type: application/json"   -d '{"app": {"name": "test", "version":"0.1.0"}, "device": {"id": "server-001", "description": "Production web server"}, "error": {"message": "Database connection timeout", "trace": ["ConnectionPool.getConnection()", "DatabaseService.connect()", "UserService.authenticate()"]}}' -v
 
 ## Docker image
-rutmir/support-server:latest
+rutmir/support-server
 
+docker -run --rm -d \
+  --name support-server \
+  -p 3000:3000 \
+  -v <path_to_config_file>/config.toml:/app/config.toml \
+  --restart always \
+  rutmir/support-server:latest \

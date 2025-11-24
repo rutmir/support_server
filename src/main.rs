@@ -3,9 +3,7 @@ use axum::{
     Router,
     serve,
 };
-use std::net::SocketAddr;
-use std::process;
-use std::sync::Arc;
+use std::{net::SocketAddr, process,sync::Arc};
 use env_logger;
 use tower_http::trace::TraceLayer;
 
@@ -58,7 +56,8 @@ async fn main() {
         error_report_service,
     };
 
-    let api_router = Router::new().route("/v1/error-report", post(api::error_report::report_error))
+    let api_router = Router::new()
+        .route("/v1/error-report", post(api::error_report::report_error))
         .layer(axum::middleware::from_fn_with_state(
             config.clone(),
             middleware::auth::api_key_auth,
