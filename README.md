@@ -20,7 +20,7 @@ curl -X POST http://127.0.0.1:8080/api/v1/error-report   -H "Authorization: Bear
 ## Docker image
 rutmir/support-server
 
-docker -run --rm -d \
+docker -run -d \
   --name support-server \
   -p 3000:3000 \
   -v <path_to_config_file>/config.toml:/app/config.toml \
