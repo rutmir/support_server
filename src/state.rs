@@ -1,4 +1,4 @@
-use crate::{config::Config, services::error_report_service::ErrorReportService};
+use crate::{config::Config, services::error_report_service::ErrorReportService, services::notification_service::NotificationService};
 use std::sync::Arc;
 
 /// Application state that holds shared resources
@@ -6,4 +6,5 @@ use std::sync::Arc;
 pub struct AppState {
     pub config: Arc<Config>,
     pub error_report_service: Arc<ErrorReportService>,
+    pub notification_service: Arc<NotificationService>,
 }

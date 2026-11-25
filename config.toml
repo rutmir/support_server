@@ -6,6 +6,9 @@ server_address = "127.0.0.1:8080"
 # Telegram bot configuration
 telegram_bot_token = "PLACEHOLDER_BOT_TOKEN"
 telegram_chat_id = "PLACEHOLDER_CHAT_ID"
+# Optional: override the Telegram Bot API base (local e2e / mock server).
+# Default: https://api.telegram.org
+telegram_api_base = "https://api.telegram.org"
 
 # Cache configuration
 cache_ttl_minutes = 10

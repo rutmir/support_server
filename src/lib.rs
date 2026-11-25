@@ -4,6 +4,9 @@ pub mod config;
 pub mod error;
 pub mod middleware;
 pub mod models;
+pub mod router;
 pub mod services;
 pub mod state;
 pub mod telegram;
+
+pub use router::build_router;
